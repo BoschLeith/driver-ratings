@@ -1,0 +1,26 @@
+-- Write your down sql migration here
+DELETE FROM races WHERE (name, race_date) IN (
+    ('Bahrain Grand Prix', '2024-03-03'),
+    ('Saudi Arabian Grand Prix', '2024-03-10'),
+    ('Australian Grand Prix', '2024-03-24'),
+    ('Chinese Grand Prix', '2024-04-14'),
+    ('Azerbaijan Grand Prix', '2024-04-28'),
+    ('Miami Grand Prix', '2024-05-05'),
+    ('Monaco Grand Prix', '2024-05-26'),
+    ('Spanish Grand Prix', '2024-06-02'),
+    ('Canadian Grand Prix', '2024-06-09'),
+    ('Austrian Grand Prix', '2024-06-30'),
+    ('British Grand Prix', '2024-07-07'),
+    ('Hungarian Grand Prix', '2024-07-21'),
+    ('Belgian Grand Prix', '2024-07-28'),
+    ('Dutch Grand Prix', '2024-08-25'),
+    ('Italian Grand Prix', '2024-09-01'),
+    ('Singapore Grand Prix', '2024-09-15'),
+    ('Japanese Grand Prix', '2024-09-22'),
+    ('Qatar Grand Prix', '2024-10-06'),
+    ('United States Grand Prix', '2024-10-20'),
+    ('Mexican Grand Prix', '2024-10-27'),
+    ('Brazilian Grand Prix', '2024-11-10'),
+    ('Las Vegas Grand Prix', '2024-11-23'),
+    ('Abu Dhabi Grand Prix', '2024-12-01')
+);

@@ -103,6 +103,36 @@ app.get("/drivers/:id", async (c) => {
   }
 });
 
+app.get("/races", async (c) => {
+  try {
+    const { rows } = await turso.execute("SELECT * FROM races");
+    return c.json({ races: rows });
+  } catch (error) {
+    console.error("Error fetching races:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
+app.get("/races/:id", async (c) => {
+  const raceId = c.req.param("id");
+
+  try {
+    const { rows } = await turso.execute({
+      sql: "SELECT * FROM races WHERE id = ?",
+      args: [raceId],
+    });
+
+    if (rows.length === 0) {
+      return c.json({ error: "Race not found" }, 404);
+    }
+
+    return c.json({ race: rows[0] });
+  } catch (error) {
+    console.error("Error fetching race:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
 const port = 3000;
 
 serve({
