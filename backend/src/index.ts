@@ -163,6 +163,57 @@ app.get("/raters/:id", async (c) => {
   }
 });
 
+app.get("/ratings", async (c) => {
+  try {
+    const { rows } = await turso.execute("SELECT * FROM ratings");
+    return c.json({ ratings: rows });
+  } catch (error) {
+    console.error("Error fetching ratings:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
+app.get("/ratings/race/:raceId", async (c) => {
+  const raceId = c.req.param("raceId");
+
+  try {
+    const { rows } = await turso.execute({
+      sql: "SELECT * FROM ratings WHERE race_id = ?",
+      args: [raceId],
+    });
+
+    if (rows.length === 0) {
+      return c.json({ error: "Ratings not found" }, 404);
+    }
+
+    return c.json({ ratings: rows });
+  } catch (error) {
+    console.error("Error fetching ratings:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
+app.get("/ratings/rater/:raterId/race/:raceId", async (c) => {
+  const raterId = c.req.param("raterId");
+  const raceId = c.req.param("raceId");
+
+  try {
+    const { rows } = await turso.execute({
+      sql: "SELECT * FROM ratings WHERE rater_id = ? AND race_id = ?",
+      args: [raterId, raceId],
+    });
+
+    if (rows.length === 0) {
+      return c.json({ error: "Rater ratings not found" }, 404);
+    }
+
+    return c.json({ ratings: rows });
+  } catch (error) {
+    console.error("Error fetching rater ratings:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
 const port = 3000;
 
 serve({
