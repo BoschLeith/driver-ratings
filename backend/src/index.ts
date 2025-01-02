@@ -133,6 +133,36 @@ app.get("/races/:id", async (c) => {
   }
 });
 
+app.get("/raters", async (c) => {
+  try {
+    const { rows } = await turso.execute("SELECT * FROM raters");
+    return c.json({ raters: rows });
+  } catch (error) {
+    console.error("Error fetching raters:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
+app.get("/raters/:id", async (c) => {
+  const raterId = c.req.param("id");
+
+  try {
+    const { rows } = await turso.execute({
+      sql: "SELECT * FROM raters WHERE id = ?",
+      args: [raterId],
+    });
+
+    if (rows.length === 0) {
+      return c.json({ error: "Rater not found" }, 404);
+    }
+
+    return c.json({ rater: rows[0] });
+  } catch (error) {
+    console.error("Error fetching rater:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
+
 const port = 3000;
 
 serve({
