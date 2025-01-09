@@ -1,6 +1,27 @@
-import { Router, Request, Response } from "express";
+import { Request, Response, Router } from "express";
 
 import { turso } from "../turso";
+import getJSON from "../utils/getJSON";
+
+interface Team {
+  id: number;
+  name: string;
+  full_name: string;
+}
+
+interface Driver {
+  id: number;
+  name: string;
+  teams: Team[];
+}
+
+interface DriverTeamRow {
+  driver_id: number;
+  driver_name: string;
+  team_id: number;
+  team_name: string;
+  team_full_name: string;
+}
 
 const router = Router();
 
@@ -117,6 +138,144 @@ router.delete("/:id", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error deleting driver:", error);
     res.status(500).send({ error: "Failed to delete driver" });
+  }
+});
+
+// // Get all drivers and their teams for a specific season
+// router.get("/teams/:season", async (req: Request, res: Response) => {
+//   const season = parseInt(req.params.season, 10);
+
+//   if (isNaN(season)) {
+//     res.status(400).send({ error: "Invalid season parameter" });
+//     return;
+//   }
+
+//   try {
+//     const data = await turso.execute({
+//       sql: `
+//         SELECT d.id AS driver_id, d.name AS driver_name, t.id AS team_id, t.name AS team_name, t.full_name AS team_full_name
+//         FROM drivers d
+//         LEFT JOIN driver_team dt ON d.id = dt.driver_id
+//         LEFT JOIN teams t ON dt.team_id = t.id
+//         WHERE dt.season = @season
+//       `,
+//       args: { season },
+//     });
+
+//     const driversWithTeams = data.rows;
+
+//     if (!driversWithTeams || driversWithTeams.length === 0) {
+//       res.status(404).send({ error: "No drivers found for this season" });
+//       return;
+//     }
+
+//     res.send(driversWithTeams);
+//   } catch (error) {
+//     console.error("Error fetching drivers with teams for season:", error);
+//     res.status(500).send({
+//       error: "Failed to fetch drivers with teams for the specified season",
+//     });
+//   }
+// });
+
+// Get a driver and their teams for a specific season
+router.get("/:id/teams/:season", async (req: Request, res: Response) => {
+  const driverId = req.params.id;
+  const season = parseInt(req.params.season, 10);
+
+  if (isNaN(season)) {
+    res.status(400).send({ error: "Invalid season parameter" });
+    return;
+  }
+
+  try {
+    const data = await turso.execute({
+      sql: `
+        SELECT d.*, t.name AS team_name, t.full_name AS team_full_name
+        FROM drivers d
+        LEFT JOIN driver_team dt ON d.id = dt.driver_id
+        LEFT JOIN teams t ON dt.team_id = t.id
+        WHERE d.id = @driverId AND dt.season = @season
+      `,
+      args: { driverId, season },
+    });
+
+    const driver = data.rows[0];
+
+    if (!driver) {
+      res
+        .status(404)
+        .send({ error: "Driver not found or no teams for this season" });
+      return;
+    }
+
+    res.send(driver);
+  } catch (error) {
+    console.error("Error fetching driver with teams:", error);
+    res.status(500).send({ error: "Failed to fetch driver with teams" });
+  }
+});
+
+// Get all drivers and their teams for a specific season
+router.get("/teams/:season", async (req: Request, res: Response) => {
+  const season = parseInt(req.params.season, 10);
+
+  if (isNaN(season)) {
+    res.status(400).send({ error: "Invalid season parameter" });
+    return;
+  }
+
+  try {
+    const data = await turso.execute({
+      sql: `
+        SELECT d.id AS driver_id, d.name AS driver_name, t.id AS team_id, t.name AS team_name, t.full_name AS team_full_name
+        FROM drivers d
+        LEFT JOIN driver_team dt ON d.id = dt.driver_id
+        LEFT JOIN teams t ON dt.team_id = t.id
+        WHERE dt.season = @season
+      `,
+      args: { season },
+    });
+
+    const driversWithTeams = getJSON(data) as DriverTeamRow[];
+
+    if (!driversWithTeams || driversWithTeams.length === 0) {
+      res.status(404).send({ error: "No drivers found for this season" });
+      return;
+    }
+
+    const result: Driver[] = [];
+
+    driversWithTeams.forEach((row: DriverTeamRow) => {
+      const { driver_id, driver_name, team_id, team_name, team_full_name } =
+        row;
+
+      let driver = result.find((d) => d.id === driver_id);
+
+      if (!driver) {
+        driver = {
+          id: driver_id,
+          name: driver_name,
+          teams: [],
+        };
+        result.push(driver);
+      }
+
+      if (team_id) {
+        driver.teams.push({
+          id: team_id,
+          name: team_name,
+          full_name: team_full_name,
+        });
+      }
+    });
+
+    res.send(result);
+  } catch (error) {
+    console.error("Error fetching drivers with teams for season:", error);
+    res.status(500).send({
+      error: "Failed to fetch drivers with teams for the specified season",
+    });
   }
 });
 
