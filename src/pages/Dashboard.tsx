@@ -1,27 +1,32 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-import { AppDispatch, RootState } from '../app/store';
-import { logout } from '../features/auth/authSlice';
+import RacesTable from '../components/RacesTable';
+import { Race } from '../types/Race';
 
 const Dashboard = () => {
-  const accessToken = useSelector((state: RootState) =>
-    state.auth.accessToken ? state.auth.accessToken : 'No Token'
-  );
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+  const [races, setRaces] = useState<Race[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login');
-  };
+  useEffect(() => {
+    const fetchRaces = async () => {
+      try {
+        const { data } = await axios.get('/api/races');
+        setRaces(data.data);
+      } catch (error) {
+        setError('Error fetching races');
+      }
+    };
+    fetchRaces();
+  }, []);
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <p>Your access token: {accessToken}</p>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <>
+      <h1>Dashboard</h1>
+      <div className="container mx-auto">
+        <RacesTable races={races} error={error} />
+      </div>
+    </>
   );
 };
 

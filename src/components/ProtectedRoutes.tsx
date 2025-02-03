@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 
 import { RootState } from '../app/store';
 
 interface ProtectedRouteProps {
-  children: JSX.Element;
+  children?: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
@@ -16,7 +17,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return children ? children : <Outlet />;
 };
 
 export default ProtectedRoute;
