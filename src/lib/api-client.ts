@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import { refreshAccessToken } from './refreshAccessToken';
-import { store } from '../redux/store';
+import { updateToken } from '@/redux/authSlice';
+import { store } from '@/redux/store';
 
-const axiosInstance = axios.create({
+const api = axios.create({
   baseURL: '/api',
 });
 
-axiosInstance.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     const token = store.getState().auth.accessToken;
 
@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-axiosInstance.interceptors.response.use(
+api.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
         const newToken = await refreshAccessToken();
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
-        return axiosInstance(originalRequest);
+        return api(originalRequest);
       } catch (refreshError) {
         return Promise.reject(refreshError);
       }
@@ -46,4 +46,20 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;
+const refreshAccessToken = async () => {
+  try {
+    const response = await axios.get('/api/auth/refresh', {
+      withCredentials: true,
+    });
+
+    const newToken = response.data.accessToken;
+
+    store.dispatch(updateToken({ accessToken: newToken }));
+
+    return newToken;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export default api;

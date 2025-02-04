@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import axiosInstance from '@/api/axios';
+import axiosInstance from '@/lib/api-client';
 import { Race } from '@/types/Race';
 
 interface FetchRacesResponse {
