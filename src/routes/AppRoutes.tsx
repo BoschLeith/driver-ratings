@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router';
 
 import Dashboard from '../components/admin/Dashboard';
+import Races from '../components/admin/races/RacesTable';
 import Login from '../components/auth/Login';
-import Races from '../components/admin/races/RaceTable';
 import AdminLayout from '../components/layouts/AdminLayout';
 import Home from '../components/pages/Home';
 import ProtectedRoutes from './ProtectedRoutes';
