@@ -2,8 +2,19 @@ import { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { loginSuccess } from '@/redux/authSlice';
 import { AppDispatch } from '@/redux/store';
+import api from '@/lib/api-client';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,19 +26,12 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const { data } = await api.post('/auth/login', { email, password });
 
-      if (!response.ok) {
+      if (!data) {
         throw new Error('Login failed');
       }
 
-      const data = await response.json();
       dispatch(loginSuccess({ accessToken: data.accessToken }));
       navigate('/dashboard');
     } catch (error) {
@@ -36,95 +40,42 @@ const Login = () => {
   };
 
   return (
-    <div className="container mx-auto flex justify-center py-12">
-      <div className="card w-100 shadow-sm">
-        <div className="card-body">
-          <h2 className="text-center text-lg font-semibold">Login</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="text-center">
-              <label className="input validator" htmlFor="email">
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                  </g>
-                </svg>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="mail@site.com"
-                  autoComplete="true"
-                  required
-                />
-              </label>
-              <div className="validator-hint hidden">
-                Enter valid email address
-              </div>
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="mail@site.com"
+                autoComplete="true"
+                required
+              />
             </div>
-            <div className="text-center">
-              <label className="input validator" htmlFor="password">
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
-                    <circle
-                      cx="16.5"
-                      cy="7.5"
-                      r=".5"
-                      fill="currentColor"
-                    ></circle>
-                  </g>
-                </svg>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Password"
-                  minLength={8}
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                  title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
-                />
-              </label>
-              <p className="validator-hint hidden">
-                Must be more than 8 characters, including
-                <br />
-                At least one number
-                <br />
-                At least one lowercase letter
-                <br />
-                At least one uppercase letter
-              </p>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
-            <button className="btn btn-block" type="submit">
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button onClick={handleSubmit}>Login</Button>
+      </CardFooter>
+    </Card>
   );
 };
 
