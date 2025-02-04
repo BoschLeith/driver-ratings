@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import axiosInstance from '../app/axios';
-import { Race } from '../types/Race';
+import { Race } from '../../../types/Race';
+import axiosInstance from '../../../api/axios';
 
 interface RacesTableProps {
   races: Race[];

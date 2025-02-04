@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router';
 
-import { AppDispatch } from '../app/store';
-import { logout } from '../features/auth/authSlice';
+import { logout } from '../../redux/authSlice';
+import { AppDispatch } from '../../redux/store';
 
 const AdminLayout = () => {
   const dispatch = useDispatch<AppDispatch>();

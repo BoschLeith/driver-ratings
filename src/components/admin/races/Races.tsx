@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import RacesTable from '../components/RacesTable';
-import { Race } from '../types/Race';
+import { Race } from '../../../types/Race';
+import RacesTable from './RacesTable';
 
 const Races = () => {
   const [races, setRaces] = useState<Race[]>([]);

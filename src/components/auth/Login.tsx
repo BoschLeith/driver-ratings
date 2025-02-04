@@ -2,8 +2,8 @@ import { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { AppDispatch } from '../app/store';
-import { loginSuccess } from '../features/auth/authSlice';
+import { AppDispatch } from '../../redux/store';
+import { loginSuccess } from '../../redux/authSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');

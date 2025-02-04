@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { refreshAccessToken } from './refreshAccessToken';
-import { store } from './store';
+import { store } from '../redux/store';
 
 const axiosInstance = axios.create({
   baseURL: '/api',

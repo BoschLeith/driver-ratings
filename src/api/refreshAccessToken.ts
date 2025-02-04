@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { updateToken } from '../features/auth/authSlice';
-import { store } from './store';
+import { updateToken } from '../redux/authSlice';
+import { store } from '../redux/store';
 
 export const refreshAccessToken = async () => {
   try {
