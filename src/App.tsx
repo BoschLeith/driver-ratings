@@ -1,10 +1,11 @@
 import { Route, Routes } from 'react-router';
 
-import ProtectedRoutes from './components/ProtectedRoutes';
+import ProtectedRoutes from './features/auth/ProtectedRoutes';
 import AdminLayout from './layouts/AdminLayout';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Races from './pages/Races';
 
 const App = () => {
   return (
@@ -12,8 +13,9 @@ const App = () => {
       <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route element={<ProtectedRoutes />}>
-        <Route path="dashboard" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
+        <Route element={<AdminLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="races" element={<Races />} />
         </Route>
       </Route>
     </Routes>

@@ -1,30 +1,13 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-
-import RacesTable from '../components/RacesTable';
-import { Race } from '../types/Race';
+import { Link } from 'react-router';
 
 const Dashboard = () => {
-  const [races, setRaces] = useState<Race[]>([]);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchRaces = async () => {
-      try {
-        const { data } = await axios.get('/api/races');
-        setRaces(data.data);
-      } catch (error) {
-        setError('Error fetching races');
-      }
-    };
-    fetchRaces();
-  }, []);
-
   return (
     <>
       <h1>Dashboard</h1>
       <div className="container mx-auto">
-        <RacesTable races={races} error={error} />
+        <Link className="btn" to={'/races'}>
+          Races
+        </Link>
       </div>
     </>
   );
