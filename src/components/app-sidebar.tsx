@@ -1,5 +1,6 @@
 import { ChevronUp, Flag, User2, UserRound, UsersRound } from 'lucide-react';
-import { NavLink } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router';
 
 import {
   DropdownMenu,
@@ -17,6 +18,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { logout } from '@/redux/authSlice';
+import { AppDispatch } from '@/redux/store';
 
 const items = [
   {
@@ -37,6 +40,13 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
+
   return (
     <Sidebar variant="inset">
       <SidebarContent>
@@ -71,7 +81,10 @@ export function AppSidebar() {
                 side="top"
                 className="w-[--radix-popper-anchor-width]"
               >
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={handleLogout}
+                >
                   <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

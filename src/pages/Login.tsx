@@ -40,42 +40,44 @@ const Login = () => {
   };
 
   return (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>Login</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="mail@site.com"
-                autoComplete="true"
-                required
-              />
+    <div className="flex min-h-screen items-center justify-center">
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+        </CardHeader>
+        <form onSubmit={handleSubmit}>
+          <CardContent>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="mail@site.com"
+                  autoComplete="true"
+                  required
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </div>
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button>Login</Button>
+          </CardFooter>
         </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button onClick={handleSubmit}>Login</Button>
-      </CardFooter>
-    </Card>
+      </Card>
+    </div>
   );
 };
 

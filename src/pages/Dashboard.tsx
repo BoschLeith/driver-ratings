@@ -35,9 +35,7 @@ const Dashboard = () => {
 
                 return (
                   <BreadcrumbItem key={pathname}>
-                    <BreadcrumbLink>
-                      <Link to={pathname}>{breadcrumbName}</Link>
-                    </BreadcrumbLink>
+                    <Link to={pathname}>{breadcrumbName}</Link>
                     {index < pathnames.length - 1 && <BreadcrumbSeparator />}
                   </BreadcrumbItem>
                 );
