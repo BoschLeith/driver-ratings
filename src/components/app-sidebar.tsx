@@ -19,7 +19,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { logout } from '@/redux/authSlice';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, store } from '@/redux/store';
 
 const items = [
   {
@@ -46,6 +46,7 @@ export function AppSidebar() {
     dispatch(logout());
     navigate('/login');
   };
+  const email = store.getState().auth.email;
 
   return (
     <Sidebar variant="inset">
@@ -73,7 +74,7 @@ export function AppSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> Username
+                  <User2 /> {email}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

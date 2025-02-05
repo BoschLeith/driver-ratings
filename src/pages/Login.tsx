@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import api from '@/lib/api-client';
 import { loginSuccess } from '@/redux/authSlice';
 import { AppDispatch } from '@/redux/store';
-import api from '@/lib/api-client';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -32,7 +32,9 @@ const Login = () => {
         throw new Error('Login failed');
       }
 
-      dispatch(loginSuccess({ accessToken: data.accessToken }));
+      dispatch(
+        loginSuccess({ email: data.email, accessToken: data.accessToken })
+      );
       navigate('/dashboard');
     } catch (error) {
       console.error('Error during login:', error);
