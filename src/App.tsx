@@ -16,7 +16,8 @@ const App = () => {
       <Route path="login" element={<Login />} />
       <Route element={<ProtectedRoutes />}>
         <Route element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />}>
+          <Route path="dashboard">
+            <Route index element={<Dashboard />} />
             <Route path="drivers" element={<Drivers />} />
             <Route path="races" element={<Races />} />
             <Route path="teams" element={<Teams />} />

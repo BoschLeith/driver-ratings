@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-interface Driver {
-  id: number;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date | null;
-}
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Driver } from '@/types/Driver';
 
 interface ApiResponse {
   success: boolean;
@@ -30,33 +33,40 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <h1>List of Drivers:</h1>
-      {error && <p>{error}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="p-6">
+      <div className="flex flex-col space-y-1.5 pb-6">
+        <div className="text-center text-xl font-semibold">HOME</div>
+      </div>
+      <div className="flex flex-col space-y-1.5 pb-6">
+        <div className="text-xl font-semibold">Drivers</div>
+      </div>
+      {error && <div>{error}</div>}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Created At</TableHead>
+            <TableHead>Updated At</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {drivers.map((driver) => (
-            <tr key={driver.id}>
-              <td>{driver.id}</td>
-              <td>{driver.name}</td>
-              <td>{new Date(driver.createdAt).toLocaleString()}</td>
-              <td>
+            <TableRow key={driver.id}>
+              <TableCell>{driver.id}</TableCell>
+              <TableCell>{driver.name}</TableCell>
+              <TableCell>
+                {new Date(driver.createdAt).toLocaleString()}
+              </TableCell>
+              <TableCell>
                 {driver.updatedAt
                   ? new Date(driver.updatedAt).toLocaleString()
                   : 'N/A'}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };

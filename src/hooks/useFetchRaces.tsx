@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import axiosInstance from '@/lib/api-client';
+import api from '@/lib/api-client';
 import { Race } from '@/types/Race';
 
 interface FetchRacesResponse {
@@ -8,12 +8,6 @@ interface FetchRacesResponse {
   data?: Race[];
   message?: string;
 }
-
-// interface UseFetchRacesReturn {
-//   races: Race[];
-//   loading: boolean;
-//   error: Error | null;
-// }
 
 const useFetchRaces = () => {
   const [races, setRaces] = useState<Race[]>([]);
@@ -23,7 +17,7 @@ const useFetchRaces = () => {
   useEffect(() => {
     const fetchRaces = async () => {
       try {
-        const { data } = await axiosInstance.get<FetchRacesResponse>('/races');
+        const { data } = await api.get<FetchRacesResponse>('/races');
         if (data.success) {
           setRaces(data.data || []);
         } else {
