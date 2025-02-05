@@ -14,6 +14,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -50,6 +51,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar variant="inset">
+      <SidebarHeader>Driver Ratings</SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

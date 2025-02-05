@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { ModeToggle } from '@/components/mode-toggle';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -47,6 +48,9 @@ const Dashboard = () => {
             )}
           </BreadcrumbList>
         </Breadcrumb>
+        <div className="ml-auto flex items-center">
+          <ModeToggle />
+        </div>
       </header>
       <main className="p-4">
         <Outlet />
