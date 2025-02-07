@@ -1,19 +1,9 @@
 import { Pencil, Trash } from 'lucide-react';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import api from '@/lib/api-client';
-import { Race } from '@/types/Race';
 import {
   Dialog,
   DialogClose,
@@ -24,6 +14,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import api from '@/lib/api-client';
+import { Race } from '@/types/Race';
 
 interface RacesApiResponse {
   success: boolean;
@@ -77,7 +77,12 @@ const Races = () => {
   return (
     <>
       <Card>
-        <CardHeader>Races</CardHeader>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <div>Races</div>
+          <Button>
+            <Link to={'create'}>Add Race</Link>
+          </Button>
+        </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
@@ -110,9 +115,6 @@ const Races = () => {
                         <Pencil />
                       </Link>
                     </Button>
-                    {/* <Button variant="outline" size="icon">
-                      <Trash />
-                    </Button> */}
                     <Dialog>
                       <DialogTrigger>
                         <Button variant="outline" size="icon">

@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router';
 
 import AdminLayout from '@/layouts/AdminLayout';
+import CreateRace from '@/pages/CreateRace';
 import Dashboard from '@/pages/Dashboard';
 import Drivers from '@/pages/Drivers';
 import EditRace from '@/pages/EditRace';
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="races">
               <Route index element={<Races />} />
               <Route path=":raceId/edit" element={<EditRace />} />
+              <Route path="create" element={<CreateRace />} />
             </Route>
             <Route path="teams" element={<Teams />} />
           </Route>
