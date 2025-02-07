@@ -10,6 +10,7 @@ import Login from '@/pages/Login';
 import Races from '@/pages/Races';
 import Teams from '@/pages/Teams';
 import ProtectedRoutes from '@/routes/ProtectedRoutes';
+import ViewRace from './pages/ViewRace';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
               <Route index element={<Races />} />
               <Route path=":raceId/edit" element={<EditRace />} />
               <Route path="create" element={<CreateRace />} />
+              <Route path=":raceId" element={<ViewRace />} />
             </Route>
             <Route path="teams" element={<Teams />} />
           </Route>
