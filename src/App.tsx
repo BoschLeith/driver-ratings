@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router';
 import AdminLayout from '@/layouts/AdminLayout';
 import Dashboard from '@/pages/Dashboard';
 import Drivers from '@/pages/Drivers';
+import EditRace from '@/pages/EditRace';
 import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import Races from '@/pages/Races';
@@ -19,7 +20,10 @@ const App = () => {
           <Route path="dashboard">
             <Route index element={<Dashboard />} />
             <Route path="drivers" element={<Drivers />} />
-            <Route path="races" element={<Races />} />
+            <Route path="races">
+              <Route index element={<Races />} />
+              <Route path=":raceId/edit" element={<EditRace />} />
+            </Route>
             <Route path="teams" element={<Teams />} />
           </Route>
         </Route>

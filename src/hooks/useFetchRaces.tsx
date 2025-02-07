@@ -24,7 +24,9 @@ const useFetchRaces = () => {
           setError(new Error(data.message || 'Failed to fetch races'));
         }
       } catch (err) {
-        setError(err as Error);
+        setError(
+          err instanceof Error ? err : new Error('An unknown error occurred')
+        );
       } finally {
         setLoading(false);
       }

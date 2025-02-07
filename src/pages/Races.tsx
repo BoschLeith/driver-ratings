@@ -1,4 +1,5 @@
-import { Loader2, Pencil, Trash } from 'lucide-react';
+import { Pencil, Trash } from 'lucide-react';
+import { Link } from 'react-router';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,13 +15,7 @@ import useFetchRaces from '@/hooks/useFetchRaces';
 const Races = () => {
   const { races, loading, error } = useFetchRaces();
 
-  if (loading)
-    return (
-      <div className="flex items-center justify-center space-x-2">
-        <Loader2 className="animate-spin" />
-        <span>Loading...</span>
-      </div>
-    );
+  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -53,7 +48,9 @@ const Races = () => {
               </TableCell>
               <TableCell className="flex justify-center space-x-4">
                 <Button variant="outline" size="icon">
-                  <Pencil />
+                  <Link to={`${race.id}/edit`}>
+                    <Pencil />
+                  </Link>
                 </Button>
                 <Button variant="outline" size="icon">
                   <Trash />
