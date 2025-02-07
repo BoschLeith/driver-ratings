@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import api from '@/lib/api-client';
 import { Race } from '@/types/Race';
 
-interface RaceResponse {
+interface RaceApiResponse {
   success: boolean;
   data?: Race;
   message?: string;
@@ -28,9 +28,9 @@ const EditRace = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRaceData = async () => {
+    const getRace = async () => {
       try {
-        const { data } = await api.get<RaceResponse>(`/races/${raceId}`);
+        const { data } = await api.get<RaceApiResponse>(`/races/${raceId}`);
         if (data.success && data.data) {
           setRaceName(data.data.name);
           setRaceDate(data.data.date);
@@ -46,16 +46,8 @@ const EditRace = () => {
       }
     };
 
-    fetchRaceData();
+    getRace();
   }, [raceId]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -66,6 +58,14 @@ const EditRace = () => {
       console.error('Error updating race:', error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <>
