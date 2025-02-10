@@ -1,12 +1,14 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import DatePicker from '@/components/DatePicker';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,13 +32,16 @@ const CreateRace = () => {
   return (
     <>
       <Card>
-        <CardHeader>Create Race</CardHeader>
+        <CardHeader>
+          <CardTitle>Create Race</CardTitle>
+        </CardHeader>
         <CardContent>
           <form>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="raceName">Name</Label>
                 <Input
+                  className="w-[280px]"
                   type="text"
                   id="raceName"
                   value={raceName}
@@ -45,11 +50,9 @@ const CreateRace = () => {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="raceDate">Date</Label>
-                <Input
-                  type="date"
-                  id="raceDate"
-                  value={raceDate}
-                  onChange={(e) => setRaceDate(e.target.value)}
+                <DatePicker
+                  selectedDate={raceDate}
+                  setSelectedDate={setRaceDate}
                 />
               </div>
             </div>

@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -56,12 +57,24 @@ const ViewRace = () => {
           <div className="space-y-2">
             <p>ID: {race.id}</p>
             <p>Name: {race.name}</p>
-            <p>Date: {new Date(race.date).toDateString()}</p>
-            <p>Created: {new Date(race.createdAt).toLocaleString()}</p>
+            <p>
+              Date:{' '}
+              {DateTime.fromISO(race.date, { zone: 'utc' })
+                .toUTC()
+                .toFormat('EEE MMM dd yyyy')}
+            </p>
+            <p>
+              Created:{' '}
+              {DateTime.fromJSDate(new Date(race.createdAt)).toFormat(
+                'MMM d, yyyy, h:mm:ss a'
+              )}
+            </p>
             <p>
               Last Updated:{' '}
               {race.updatedAt
-                ? new Date(race.updatedAt).toLocaleString()
+                ? DateTime.fromJSDate(new Date(race.updatedAt)).toFormat(
+                    'MMM d, yyyy, h:mm:ss a'
+                  )
                 : 'N/A'}
             </p>
           </div>

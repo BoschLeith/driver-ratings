@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
+import DatePicker from '@/components/DatePicker';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -80,6 +81,7 @@ const EditRace = () => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="raceName">Name</Label>
                 <Input
+                  className="w-[280px]"
                   type="text"
                   id="raceName"
                   value={raceName}
@@ -88,11 +90,9 @@ const EditRace = () => {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="raceDate">Date</Label>
-                <Input
-                  type="date"
-                  id="raceDate"
-                  value={raceDate}
-                  onChange={(e) => setRaceDate(e.target.value)}
+                <DatePicker
+                  selectedDate={raceDate}
+                  setSelectedDate={setRaceDate}
                 />
               </div>
             </div>

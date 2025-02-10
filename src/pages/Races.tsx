@@ -1,4 +1,5 @@
 import { Pencil, Trash } from 'lucide-react';
+import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
@@ -100,13 +101,21 @@ const Races = () => {
                 <TableRow key={race.id}>
                   <TableCell>{race.id}</TableCell>
                   <TableCell>{race.name}</TableCell>
-                  <TableCell>{new Date(race.date).toDateString()}</TableCell>
                   <TableCell>
-                    {new Date(race.createdAt).toLocaleString()}
+                    {DateTime.fromISO(race.date)
+                      .toUTC()
+                      .toFormat('EEE MMM dd yyyy')}
+                  </TableCell>
+                  <TableCell>
+                    {DateTime.fromJSDate(new Date(race.createdAt)).toFormat(
+                      'MMM d, yyyy, h:mm:ss a'
+                    )}
                   </TableCell>
                   <TableCell>
                     {race.updatedAt
-                      ? new Date(race.updatedAt).toLocaleString()
+                      ? DateTime.fromJSDate(new Date(race.updatedAt)).toFormat(
+                          'MMM d, yyyy, h:mm:ss a'
+                        )
                       : 'N/A'}
                   </TableCell>
                   <TableCell className="flex justify-center space-x-4">
