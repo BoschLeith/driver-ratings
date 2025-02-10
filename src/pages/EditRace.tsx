@@ -7,6 +7,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -70,7 +71,9 @@ const EditRace = () => {
   return (
     <>
       <Card>
-        <CardHeader>Edit Race</CardHeader>
+        <CardHeader>
+          <CardTitle>Edit Race</CardTitle>
+        </CardHeader>
         <CardContent>
           <form>
             <div className="grid w-full items-center gap-4">

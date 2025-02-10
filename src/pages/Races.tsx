@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogClose,
@@ -78,7 +78,7 @@ const Races = () => {
     <>
       <Card>
         <CardHeader className="flex-row items-center justify-between space-y-0">
-          <div>Races</div>
+          <CardTitle>Races</CardTitle>
           <Button>
             <Link to={'create'}>Add Race</Link>
           </Button>
