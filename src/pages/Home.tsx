@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import {
@@ -9,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import api from '@/lib/api-client';
 import { Driver } from '@/types/Driver';
 
 interface ApiResponse {
@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const { data } = await axios.get<ApiResponse>('/api/drivers');
+        const { data } = await api.get<ApiResponse>('/drivers');
         setDrivers(data.data);
       } catch (err) {
         setError('Error fetching drivers');

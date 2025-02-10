@@ -4,7 +4,7 @@ import { updateToken } from '@/redux/authSlice';
 import { store } from '@/redux/store';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:8080/api',
 });
 
 api.interceptors.request.use(
